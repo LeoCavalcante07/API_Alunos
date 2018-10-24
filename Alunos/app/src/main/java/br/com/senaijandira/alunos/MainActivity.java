@@ -1,26 +1,22 @@
 package br.com.senaijandira.alunos;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-
-import java.util.List;
-
-import br.com.senaijandira.alunos.model.Aluno;
-import br.com.senaijandira.alunos.service.AlunoService;
-import br.com.senaijandira.alunos.service.ServiceFactory;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
+
+    EditText edMatricula;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        edMatricula = findViewById(R.id.edMatricula);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -29,31 +25,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void chamarApi(View view) {
 
-        //Cria o serviço que chama a API
-        AlunoService service = ServiceFactory.create();
-
-        //Chama a API  de alunos
-        Call<List<Aluno>> call = service.obterAlunos();
-
-        //efetua a chamada da APIn
-        call.enqueue(new Callback<List<Aluno>>() {
-            @Override
-            public void onResponse(Call<List<Aluno>> call, Response<List<Aluno>> response) {
-
-                List<Aluno> alunos = response.body();
-
-                for(Aluno a: alunos){
-                    Log.d("API_ALUNOS", a.getNome());
-                }
+        int matricula = Integer.valueOf(edMatricula.getText().toString());
 
 
+        startActivity(new Intent(this, ListAlunosActivity.class));
 
-            }
-
-            @Override
-            public void onFailure(Call<List<Aluno>> call, Throwable t) {
-                Log.e("ERRO_API", t.getMessage());
-            }
-        });
     }
 }

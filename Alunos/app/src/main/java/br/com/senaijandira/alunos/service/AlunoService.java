@@ -13,4 +13,7 @@ public interface AlunoService {
     @GET("/alunos") // quando na url for digitado /alunos, retorne uma vista
     Call<List<Aluno>> obterAlunos();
 
+    @GET("/aluno/:id")
+    Call<List<Aluno>> obterAlunoEspecifico();
+
 }
