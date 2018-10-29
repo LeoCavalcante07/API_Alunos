@@ -10,6 +10,8 @@ import android.widget.EditText;
 public class MainActivity extends AppCompatActivity {
 
     EditText edMatricula;
+    static int matricula;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +27,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void chamarApi(View view) {
 
-        int matricula = Integer.valueOf(edMatricula.getText().toString());
+        //int matricula = Integer.valueOf(edMatricula.getText().toString());
+        matricula = Integer.valueOf(edMatricula.getText().toString());
+
 
 
         startActivity(new Intent(this, ListAlunosActivity.class));
 
+    }
+
+    public void cadastrarUsuario(View view) {
+        startActivity(new Intent(this, CadastroActivity.class));
     }
 }

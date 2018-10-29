@@ -23,6 +23,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static br.com.senaijandira.alunos.MainActivity.matricula;
+
 public class ListAlunosActivity extends Activity {
 
     ListView lstAlunos;
@@ -40,18 +42,54 @@ public class ListAlunosActivity extends Activity {
         //Cria o serviço que chama a API
         AlunoService service = ServiceFactory.create();
 
-        //Chama a API  de alunos
-        Call<List<Aluno>> call = service.obterAlunos();
-
-        //efetua a chamada da APIn
-        call.enqueue(new Callback<List<Aluno>>() {
-            @Override
-            public void onResponse(Call<List<Aluno>> call, Response<List<Aluno>> response) {
-
-                List<Aluno> alunos = response.body();
+        if(matricula == 0){
 
 
+            //Chama a API  de alunos
+            //Call<List<Aluno>> call = service.obterAlunos();
+            Call<List<Aluno>> call = service.obterAlunos();
 
+            //efetua a chamada da APIn
+            call.enqueue(new Callback<List<Aluno>>() {
+                @Override
+                public void onResponse(Call<List<Aluno>> call, Response<List<Aluno>> response) {
+
+                    List<Aluno> alunos = response.body();
+
+                    /*for(Aluno a: alunos){
+                        Log.d("API_ALUNOS", a.getNome());
+                        Log.d("API_ALUNOS","" +  a.getMatricula());
+
+                    }*/
+
+                    adapter.addAll(alunos);
+
+
+
+                }
+
+                @Override
+                public void onFailure(Call<List<Aluno>> call, Throwable t) {
+                    Log.e("ERRO_API", t.getMessage());
+                }
+
+            });
+
+
+        }else{
+
+
+
+            //Chama a API  de alunos
+            //Call<List<Aluno>> call = service.obterAlunos();
+            Call<Aluno> call = service.obterAlunoEspecifico(matricula);
+
+            //efetua a chamada da APIn
+            call.enqueue(new Callback<Aluno>() {
+                @Override
+                public void onResponse(Call<Aluno> call, Response<Aluno> response) {
+
+                    Aluno alunos = response.body();
 
                 /*for(Aluno a: alunos){
                     Log.d("API_ALUNOS", a.getNome());
@@ -59,18 +97,22 @@ public class ListAlunosActivity extends Activity {
 
                 }*/
 
-                adapter.addAll(alunos);
+                    adapter.addAll(alunos);
 
 
 
-            }
+                }
 
-            @Override
-            public void onFailure(Call<List<Aluno>> call, Throwable t) {
-                Log.e("ERRO_API", t.getMessage());
-            }
+                @Override
+                public void onFailure(Call<Aluno> call, Throwable t) {
+                    Log.e("ERRO_API", t.getMessage());
+                }
 
-        });
+            });
+
+        }
+
+
 
 
     }

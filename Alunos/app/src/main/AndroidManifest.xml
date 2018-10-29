@@ -22,6 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ListAlunosActivity"/>
+        <activity android:name=".CadastroActivity"/>
+
     </application>
 
 </manifest>
